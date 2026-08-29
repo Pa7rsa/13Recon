@@ -10,7 +10,10 @@ from . import __version__
 from .dns import lookup
 from .http import SECURITY_HEADERS, probe_many
 
-_DOMAIN_RE = re.compile(r"^(?=.{1,253}$)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)*[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$")
+_DOMAIN_RE = re.compile(
+    r"^(?=.{1,253}$)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)*"
+    r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$"
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -18,11 +21,34 @@ def build_parser() -> argparse.ArgumentParser:
         prog="13recon",
         description="13Recon — lightweight reconnaissance for authorized security research.",
     )
-    parser.add_argument("target", help="Domain name to inspect (for systems you own or are authorized to test)")
-    parser.add_argument("--timeout", type=float, default=8.0, help="Per-request timeout in seconds (default: 8)")
-    parser.add_argument("--workers", type=int, default=10, help="Concurrent HTTP workers (default: 10)")
-    parser.add_argument("--dns-timeout", type=float, default=4.0, help="DNS timeout in seconds (default: 4)")
-    parser.add_argument("--json", dest="json_path", metavar="PATH", help="Write a JSON report to PATH")
+    parser.add_argument(
+        "target",
+        help="Domain name to inspect (for systems you own or are authorized to test)",
+    )
+    parser.add_argument(
+        "--timeout",
+        type=float,
+        default=8.0,
+        help="Per-request timeout in seconds (default: 8)",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=10,
+        help="Concurrent HTTP workers (default: 10)",
+    )
+    parser.add_argument(
+        "--dns-timeout",
+        type=float,
+        default=4.0,
+        help="DNS timeout in seconds (default: 4)",
+    )
+    parser.add_argument(
+        "--json",
+        dest="json_path",
+        metavar="PATH",
+        help="Write a JSON report to PATH",
+    )
     return parser
 
 
@@ -50,7 +76,10 @@ def _print_report(target: str, dns_data: dict[str, list[str]], http_data: list) 
             title = item.title or "-"
             elapsed = f"{item.elapsed:.2f}s" if item.elapsed is not None else "-"
             redirect = f" redirects={item.redirect_count}" if item.redirect_count else ""
-            print(f"  {item.requested_url:<32} {item.status:<3} {title[:36]:<36} {elapsed}{redirect}")
+            print(
+                f"  {item.requested_url:<32} {item.status:<3} "
+                f"{title[:36]:<36} {elapsed}{redirect}"
+            )
         else:
             print(f"  {item.requested_url:<32} ERROR  {item.error}")
 

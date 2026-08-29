@@ -22,7 +22,11 @@ _USER_AGENT = "13Recon/0.2 (+authorized-security-testing)"
 
 
 def _title(text: str) -> str | None:
-    match = re.search(r"<title[^>]*>(.*?)</title>", text, re.I | re.S)
+    match = re.search(
+        r"<title[^>]*>(.*?)</title>",
+        text,
+        re.IGNORECASE | re.DOTALL,
+    )
     if not match:
         return None
     return re.sub(r"\s+", " ", match.group(1)).strip()[:200] or None

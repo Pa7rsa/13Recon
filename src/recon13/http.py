@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import re
 import time
+from collections.abc import Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Iterable
 
 import requests
 
